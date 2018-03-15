@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>spring5-recipe-app-one-to-many-jpa</name>
+	<name>spring5-jpa-lombok-recipe-app</name>
 	<comment></comment>
 	<projects>
 	</projects>

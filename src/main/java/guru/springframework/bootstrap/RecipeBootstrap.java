@@ -4,6 +4,8 @@ import guru.springframework.domain.*;
 import guru.springframework.repositories.CategoryRepository;
 import guru.springframework.repositories.RecipeRepository;
 import guru.springframework.repositories.UnitOfMeasureRepository;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
@@ -13,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Component
 public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEvent> {
 
@@ -28,6 +31,7 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
+    	log.debug("RecipeBootstrap log");
         recipeRepository.saveAll(getRecipes());
     }
 
@@ -36,37 +40,37 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
         List<Recipe> recipes = new ArrayList<>(2);
 
         //get UOMs
-        Optional<UnitOfMeasure> eachUomOptional = unitOfMeasureRepository.findByUom("Each");
+        Optional<UnitOfMeasure> eachUomOptional = unitOfMeasureRepository.findByDescription("Each");
 
         if(!eachUomOptional.isPresent()){
             throw new RuntimeException("Expected UOM Not Found");
         }
 
-        Optional<UnitOfMeasure> tableSpoonUomOptional = unitOfMeasureRepository.findByUom("Tablespoon");
+        Optional<UnitOfMeasure> tableSpoonUomOptional = unitOfMeasureRepository.findByDescription("Tablespoon");
 
         if(!tableSpoonUomOptional.isPresent()){
             throw new RuntimeException("Expected UOM Not Found");
         }
 
-        Optional<UnitOfMeasure> teaSpoonUomOptional = unitOfMeasureRepository.findByUom("Teaspoon");
+        Optional<UnitOfMeasure> teaSpoonUomOptional = unitOfMeasureRepository.findByDescription("Teaspoon");
 
         if(!teaSpoonUomOptional.isPresent()){
             throw new RuntimeException("Expected UOM Not Found");
         }
 
-        Optional<UnitOfMeasure> dashUomOptional = unitOfMeasureRepository.findByUom("Dash");
+        Optional<UnitOfMeasure> dashUomOptional = unitOfMeasureRepository.findByDescription("Dash");
 
         if(!dashUomOptional.isPresent()){
             throw new RuntimeException("Expected UOM Not Found");
         }
 
-        Optional<UnitOfMeasure> pintUomOptional = unitOfMeasureRepository.findByUom("Pint");
+        Optional<UnitOfMeasure> pintUomOptional = unitOfMeasureRepository.findByDescription("Pint");
 
         if(!pintUomOptional.isPresent()){
             throw new RuntimeException("Expected UOM Not Found");
         }
 
-        Optional<UnitOfMeasure> cupsUomOptional = unitOfMeasureRepository.findByUom("Cup");
+        Optional<UnitOfMeasure> cupsUomOptional = unitOfMeasureRepository.findByDescription("Cup");
 
         if(!cupsUomOptional.isPresent()){
             throw new RuntimeException("Expected UOM Not Found");
@@ -126,6 +130,7 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
 
         guacRecipe.setNotes(guacNotes);
 
+        //very redundent - could add helper method, and make this simpler
         guacRecipe.addIngredient(new Ingredient("ripe avocados", new BigDecimal(2), eachUom));
         guacRecipe.addIngredient(new Ingredient("Kosher salt", new BigDecimal(".5"), teapoonUom));
         guacRecipe.addIngredient(new Ingredient("fresh lime juice or lemon juice", new BigDecimal(2), tableSpoonUom));
@@ -172,7 +177,6 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
                 "Read more: http://www.simplyrecipes.com/recipes/spicy_grilled_chicken_tacos/#ixzz4jvu7Q0MJ");
 
         tacosRecipe.setNotes(tacoNotes);
-
 
         tacosRecipe.addIngredient(new Ingredient("Ancho Chili Powder", new BigDecimal(2), tableSpoonUom));
         tacosRecipe.addIngredient(new Ingredient("Dried Oregano", new BigDecimal(1), teapoonUom));
