@@ -17,19 +17,27 @@ import guru.springframework.domain.UnitOfMeasure;
 @DataJpaTest
 public class UnitOfMeasureRepositoryIT {
 
-	@Autowired
-	UnitOfMeasureRepository unitOfMeasureRepository;
-	
-	@Before
-	public void setUp() throws Exception {
-	}
+    @Autowired
+    UnitOfMeasureRepository unitOfMeasureRepository;
 
-	@Test
-	public void findByDescription() {
-		
-		Optional<UnitOfMeasure> uomOptional = unitOfMeasureRepository.findByDescription("Teaspoon");
-		
-		assertEquals("Teaspoon", uomOptional.get().getDescription());
-	}
+    @Before
+    public void setUp() throws Exception {
+    }
+
+    @Test
+    public void findByDescription() throws Exception {
+
+        Optional<UnitOfMeasure> uomOptional = unitOfMeasureRepository.findByDescription("Teaspoon");
+
+        assertEquals("Teaspoon", uomOptional.get().getDescription());
+    }
+
+    @Test
+    public void findByDescriptionCup() throws Exception {
+
+        Optional<UnitOfMeasure> uomOptional = unitOfMeasureRepository.findByDescription("Cup");
+
+        assertEquals("Cup", uomOptional.get().getDescription());
+    }
 
 }
